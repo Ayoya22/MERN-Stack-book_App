@@ -1,12 +1,26 @@
 // configuring the server
 const express = require('express');
 const connectDB = require('./config/db');
+var cors = require('cors');
+
+// routes
+const books = require('./routes/api/books');
+
 const app = express();
-//pass:ns6PKRwCHBaRXrkB
-//Connect to database(mongo)
+
+// Connect Database
 connectDB();
 
-app.get('/', (req,res) => res.send('Hi there, welcome to your online library'));
+// cors
+app.use(cors({ origin: true, credentials: true }));
+
+// Init Middleware
+app.use(express.json({ extended: false }));
+
+app.get('/', (req, res) => res.send('Hello world!'));
+
+// use Routes
+app.use('/api/books', books);
 
 const port = process.env.PORT || 8082;
 
